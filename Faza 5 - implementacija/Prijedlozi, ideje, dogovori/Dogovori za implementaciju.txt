@@ -1,0 +1,29 @@
+HTML stranice koje je potrebno ostaviti:
+-template - sablon za sve ostale HTML fajlove, potrebno dodati
+
+-index_neulogovani sa nekim izmjenama za dinamičko popunjavanje - index za ostale korisnike se može dinamički popunjavati
+-pregled_clanka_gost sa izmjenama za dinamičko popunjavanje - slično kao i prethodno
+-brisanje_korisnickog_profila
+-dodavanje_slike_u_galeriju 
+-izmena_clanka
+-izmena_tabele_informacija
+-kreiranje_clanka
+-otvaranje_profila_uredniku
+-Prijava
+-prijava_na_obavestenja
+-prijava_nepravilnosti - u suštini može jedna stranica sa dinamičkim elementima - veoma su slične 
+-prijava_nepravilnosti_kraj
+-registracija
+
+----------------------------------------------------------------------------------------------
+
+Konvencije za pisanje koda:
+
+-Nazivi klasa - CamelCase, engleski jezik
+-Nazivi funkcija, metoda i promjenljivih - snake_case, engleski jezik
+-Komentari - uz početak svake klase, metode, funkcije (obavezno); uz dijelove koda iz kojih se ne može odmah zaključiti šta rade; srpski jezik uz dozvoljenu ošišanu latinicu :)
+
+**NAPOMENA: ne zaboraviti komentare na početku svakog modula sa imenima, prezimenima i brojevima indeksa članova koji su učestvovali u izradi modula
+
+------------------------------------------------------------------------------------------------
+

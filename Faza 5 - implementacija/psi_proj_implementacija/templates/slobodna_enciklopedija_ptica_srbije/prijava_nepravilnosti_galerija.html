@@ -1,0 +1,110 @@
+<!-- Andjela Ciric 2021/0066 -->
+{% extends 'base.html' %}
+
+{% block extras %}
+
+<script>
+    let imageId = "{{ idPhotograph }}"
+    const csrfToken = "{{ csrf_token }}";
+    const username = "{{ user.username }}";
+
+    let reasons = "{{ reasons }}";
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("prijavi_button_ID").addEventListener("click", function () {
+            let reason = document.getElementById("prijavaNepravilnosti").value;
+        
+            fetch('api/prijavi_nepravilnost_slike_potvrda/',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                    'X-CSRFToken':csrfToken
+                },
+                body:JSON.stringify({
+                    imageId:imageId,
+                    username:username,
+                    reason:reason
+                })
+            }).then(response => {
+                if(response.ok){
+                    console.log("Uspesno prijavljena nepravilnost slike");
+                    document.getElementById("prijava_f").setAttribute("style", "display:none;")
+                    document.getElementById("uspesna_prijava").setAttribute("style", "display:block;")
+                    // window.location = document.referrer;
+                }else{
+                    console.error("Greska tokom prijavljivanja nepravilnosti slike");
+                    window.location = document.referrer;
+                }
+            }).catch(error => {
+               console.error("Greska", error); 
+            });
+        });
+        document.getElementById("odustani_button_ID").addEventListener("click", function (){
+            window.location = document.referrer;
+        });
+
+    }); 
+    
+  
+    
+</script>
+    
+    
+{% load static %}
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="{% static '/style/pregled_clanka.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static '/style/ui_stilovi.css' %}" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container bird-container">
+    <div class="container bird-info" id="prijava_f">
+        <div class="row">
+            <div class="col-12 prijava_naslov_col">
+                <h2 class="prijava_naslov">Prijava nepravilnosti - fotografija u galeriji</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 prijava_div">
+                <div class="form-group">
+                    <label for="prijavaNepravilnosti">Razlog prijave nepravilnosti:</label>
+                    <div class="input-group">
+                        <select class="form-control" id="prijavaNepravilnosti">
+                            {% for reason in reasons %}
+                            <option value="{{ forloop.counter }}">{{ reason.opis }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="input-group-append">
+                            <div class="dropdown-menu" aria-labelledby="optionsMenu" id="options_ph">
+                                {% for reason in reasons %}
+                                <a class="dropdown-item" href="#">{{ reason.opis }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-success mr-2" id="prijavi_button_ID"><i class="fas fa-check"></i> Prijavi</button>
+                    <button type="button" class="btn btn-secondary" id="odustani_button_ID"><i class="fas fa-times"></i> Odustani</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row container bird-info" style="display: none" id="uspesna_prijava">
+        <div class="col-12 prijava_div">
+            <div class="alert alert-success" role="alert">
+                Uspešno ste prijavili nepravilnost.
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-success" id="povratak_button_ID"><i class="fas fa-arrow-left"></i> Povratak</button>
+                <script>
+                    document.getElementById('povratak_button_ID').addEventListener('click',function(){
+                        window.location = document.referrer;
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

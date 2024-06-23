@@ -1,0 +1,65 @@
+<!-- Srđan Lučić 0260/2021 -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="kartica">
+            <div class="row">
+                <div class="col-12">
+                    <h1 id="title_text"> {{ message.type }} </h1>
+                    <p> {{ message.date_time }} </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div style="background: #f2f2f2; border: #011e02">
+                        {% if valid_msg %}
+                            {{ message.content }}
+                            <hr>
+
+                            <div>
+                                {% if message.type == 'Nepravilnost - fotografija' %}
+                                    <h5>Fotografija koja je prijavljena: </h5>
+                                    <div style="width: 40%">
+                                        <img style="max-width: 100%" src={{ message.image }}>
+                                    </div> 
+                                    <hr>
+                                {% elif message.type == 'Nepravilnost - diskusija' or message.type == 'Nepravilnost - komentar'%}
+                                    <h5>Naslov diskusije na koju se odnosi nepravilnost:</h5>
+                                    <i>{{ reported_discussion_title }}</i>
+                                    {% if message.type == 'Nepravilnost - komentar' %}
+                                        <hr>
+                                        <h5>Sadržaj prijavljenog komentara:</h5>
+                                        <i>{{ reported_comment }}</i>
+                                    {% endif %}
+                                    <hr>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <h5>Članak na koji se odnosi poruka:</h5>
+                                <a href="{{ article_path }}">{{ article_title }}</a>
+                            </div>
+                        {% endif %}
+                        
+                        {% if not valid_msg %}
+                            <h3 class="p-1">Ovo je prazna poruka. Nepravilnost je obrisana u bazi!</h3>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        
+        <div class="row">
+            <div class="col-12" style="display: flex; justify-content: center">
+                <form action="/pregled_obavestenja">
+                    <button type="submit" class="btn btn-success" id="return_button" style="margin: 10px">Povratak</button>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+/* Autor: Jaroslav Veseli 2021/0480 */
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+nav {
+    height: 12vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(28, 123, 64);
+    box-shadow: 0px 2px 5px 0px #444444;
+}
+
+nav #naslov {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav #naslov #naslov-logo {
+    height: 100%;
+    float: left;
+}
+
+nav #naslov #naslov-tekst {
+    font-size: 20pt;
+    font-family: "Caveat", cursive;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+}
+
+nav #linkovi {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+}
+
+nav li {
+    text-align: center;
+    vertical-align: middle;
+    flex: 1;
+}
+
+nav #nalog {
+    width: 15%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav button {
+    margin: 15px;
+}
+
+nav #ikonice{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav #ikonice #inbox {
+    height: 50%;
+    float: right;
+}
+
+
+nav #ikonice #inbox:hover {
+    background-color: darkgreen;
+    cursor: pointer;
+}

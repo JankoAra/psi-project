@@ -1,0 +1,101 @@
+<!-- Jaroslav Veseli 2021/0480 -->
+
+
+{% extends 'base.html' %}
+
+{% block extras %}
+    <style>
+        .highlight {
+            font-weight: bolder;
+            font-size: larger;
+        }
+    </style>
+    <script>
+        let previousTr = null;
+
+        function scrollToElement(value) {
+            if (previousTr != null) {
+                previousTr.removeClass("highlight");
+            }
+            
+            // Pretraži svaku ćeliju, i proveri da li uneti tekst se nalazi u njoj.
+            const tdElements = $("td").filter(function() { return new RegExp(`${value}`, "i").test($(this).text().trim()); });
+
+            if (tdElements.length > 0) {
+                // Skroluj do pronađenog reda, i animiraj dati red da korisnik vidi sta je pronađeno.
+                tdElements[0].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+                $(tdElements[0].parentNode).addClass("highlight");
+                previousTr = $(tdElements[0].parentNode);
+            }
+            else {
+                alert("Korisnik sa tim korisničkim imenom odnosno e-mail adresom ili identifikatorom ne postoji!");
+            }
+        }
+
+        function keyboardHandler(event) {
+            if (event.keyCode == 13) {
+                // Ako je korisnik kliknuo enter u search box-u, isto može da se radi pretraga kao da je kliknuo na dugme pretrage.
+                scrollToElement(document.getElementById('searchInput').value);
+            }
+        }
+
+        function deleteUser(user_id, button) {
+            var confirmation = confirm(`Da li si siguran da želiš da obrišes ovog korisnika? Njegov id je: ${user_id}`);
+            if (confirmation) {
+                // Posalji HTTP delete request na putanju za brisanje korisnika sa odredjenim CSRF tokenom.
+                // Ako brisanje upse i vrati se status 200, onda se na stranici dinamički briše red obrisanog korisnika.
+                $.ajax({
+                    url: `/obrisi_korisnika/${user_id}/`,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        var tr = button.parentNode.parentNode;
+                        if($(tr).hasClass("highlight")) {
+                            previousTr = null;
+                        }
+                        tr.parentNode.removeChild(tr);
+                    },
+                    error: function(response) {
+                        alert("Došlo je do greške! Ili korisnik ne postoji, ili nemate vezu sa internetom!");
+                    }
+                });
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="kartica">
+            <h1>Pretraži korisnike u sistemu</h1><hr/>
+            <input id="searchInput" class="form-control tekst-unos" type="text" placeholder="Unesi korisničko ime ili e-mail adresu ili identifikator..." onkeydown="keyboardHandler(event)"/><br/>
+            <button type="button" class="btn w-100 dugme" onclick="scrollToElement(document.getElementById('searchInput').value)">Pretraga</button>
+        </div>
+
+        <div class="kartica">
+            <h1>Lista svih korisnika u sistemu</h1><hr/>
+
+            <table id="tabela-korisnika" class="table table-striped table-bordered">
+                <tr>
+                    <th>#</th>
+                    <th>Korisnicko Ime</th>
+                    <th>E-Mail Adresa</th>
+                    <th>Tip Korisnika</th>
+                    <th>-</th>
+                </tr>
+
+                {% for u in all_users %}
+                    <tr>
+                        <td>{{ u.id }}</td>
+                        <td>{{ u.username }}</td>
+                        <td>{{ u.email }}</td>
+                        <td>{{ u.get_tip_display }}</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser({{ u.id }}, this)">Obriši</button></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </section>
+{% endblock %}

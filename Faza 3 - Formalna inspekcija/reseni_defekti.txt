@@ -1,0 +1,49 @@
+1 - resen
+2 - resen
+3 - resen
+4 - resen
+5 - resen
+6 - resen
+7 - resen
+8 - ne resava se, ceka implementaciju
+9 - resen, obrisani linkovi ¨O nama¨ je stranica nema poentu
+10 - resen
+11 - mislim da ne treba da se zadaje dimenzija slike, po meni se odbija
+12 - resen
+13 - resen
+14 - resen
+15 - rijesen, uskladjen SSU
+16 - rijesen
+17 - rijesen
+18 - u SSU dokumentu o pregledu obavestenja jasno je navedeno da se obavestenjima moze pristupiti klikom na ikonicu inbox, a da tip obavestenja zavisi od uloge korisnika. I bez citanja SSU dokumenta se moze pretpostaviti da se "porukama" pristupa klikom na ovu ikonicu.
+19 - rijesen 
+20 - rijesen
+21 - rijesen
+22 - rijesen
+23 - Rešeno
+24 - Rešeno
+25 - Rešeno
+26 - Rešeno
+27 - Rešeno, s tim da su izbačeni linkovi za "Pretraga Članaka" pošto se pretraga članaka nalazi na samoj početnoj stranici koja je ostala.
+28 - Ni ne treba da se navede taj slučaj, jer su brisanje komentara/diskusija i ocenjivanje, funkcionalnosti koje su unutar pregleda koji sam sadrži "Početna Stranica". Ovo se odbija.
+29 - implementira se preko imejla, ne u prototipu
+30 - prihvata se, resen
+31 - resen
+32 - ne resava se, ceka implementaciju
+33 - nije defekt, tekst sluzi samo kao placeholder
+34 - ceka implementaciju
+35 - ceka implementaciju
+36 - prihvata se, resen, traka za skrolovanje se pojavljuje kada kolicina sadrzaja premasi max height sekcije sa obavestenjima
+37 - odbija se, drugacije srocen SSU da brisanje obavestenja ne bude u fokusu, Korisnik ima mogucnost da brise...
+38 - prihvata se, resen
+39 - prihvata se, resen, ima 2 orla
+40 - prihvata se, resen
+41 - prihvata se, resen
+42 - odbija se predlog za SSU
+43 - prihvata se, resen
+44 - implementira se preko imejla, ne u prototipu
+45 - odbija se, nije potrebno vratiti korisnika na akciju 2, vec je na kraju sadrzaja clanka
+46 - prihvata se, resen, urednik vidi i nepravilnosti za clanak ciji je on autor
+47 - ostavlja se u prototipu, sluzi samo radi lakse navigacije kroz stranice prototipa
+48 - postoji mogucnost kreiranja naloga, nije potrebno napraviti probni nalog
+

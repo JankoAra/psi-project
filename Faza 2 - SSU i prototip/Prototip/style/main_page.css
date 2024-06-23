@@ -1,0 +1,136 @@
+/*Andjela Ciric 0066/2021*/
+
+body {
+    background-image: url(../images/backgroundMain1.png);
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat:repeat-y;
+    /*background-position: center;*/
+}
+
+
+.bird-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+.bird-info {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #011e02;
+    border-radius: 10px;
+    background-color: #dcf5de;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+  
+.bird-image {
+    flex: 0 0 30%; 
+    order: 1; 
+}
+
+.bird-details {
+    flex: 0 0 70%; 
+    order: 2; 
+    padding-left: 30px;
+}
+  
+.bird-image img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+  
+.bird-table {
+    width: 100%;
+    border: 1px #011e02;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+  
+.bird-th, .bird-td {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+  
+.bird-th {
+    background-color: #f2f2f2;
+}
+  
+.bird-p {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.bird-naslov{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color:#011e02;
+}
+
+
+
+.inbox-section {
+    display: none; 
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 25%; 
+    background-color: rgb(218, 208, 174);
+    padding: 20px;
+    z-index: 9999;
+    border: 2px solid #022b16;
+    overflow-y: auto;
+    max-height: 70%;
+}
+
+.novosti_arrow{
+    width: 10%;
+}
+
+.novost{
+    padding-top: 5%;
+    padding-bottom: 5% ;
+    background-color: rgb(188, 158, 121);
+    border-radius: 2%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    position: relative;
+}
+
+.clanak_slika{
+    width: 60%;
+    border: 2px solid #022b16;
+    border-radius: 2%;
+}
+
+
+
+#dugme-novosti {
+    position: absolute;
+    top: 3%;
+    right: 3%;
+    transition: opacity 0.3s ease;
+}
+
+#dugme-novosti:hover {
+    opacity: 1;
+}
+
+
+.hidden_p{
+    display: none;
+}
+
+
+
+.karticaP {
+    margin-top: 25px;
+    padding: 25px;
+    border: 1px solid #011e02;
+    background-color: #dcf5de;
+    box-shadow: 2px 2px 5px 0px #444444;
+    border-radius: 10px;
+}

@@ -1,0 +1,107 @@
+<!-- Andjela Ciric 2021/0066 -->
+{% extends 'base.html' %}
+
+{% block extras %}
+
+<script>
+        let id_article= "{{ id_article }}";
+        let show_question = "{{ show_question }}"
+        const csrfToken = "{{ csrf_token }}";
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("prijavi_button_ID").addEventListener("click", function () {
+                let isChecked = 0;
+                if( show_question == 1) {
+                    let checkbox = document.getElementById("checkbox_confirm");
+                    isChecked = checkbox.checked;
+                }
+                fetch('api/prijavi_se_na_pracenje_obavestenja_potvrda/',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'X-CSRFToken':csrfToken
+                    },
+                    body:JSON.stringify({
+                        id_article:id_article,
+                        get_on_email:isChecked
+                    })
+                }).then(response => {
+                    if(response.ok){
+                        console.log("Uspesno prijavljeni na pracenje obavestenja");
+                        document.getElementById("prijava_f").setAttribute("style", "display:none;")
+                        document.getElementById("uspesna_prijava").setAttribute("style", "display:block;")
+                    }else{
+                        console.error("Greska tokom prijavljivanja na pracenje obavestenja");
+                        window.location = document.referrer;
+                    }
+                }).catch(error => {
+                   console.error("Greska", error);
+                });
+            });
+            document.getElementById("odustani_button_ID").addEventListener("click", function (){
+                console.log("back");
+                window.location = document.referrer;
+                window.location.href = document.referrer;
+            });
+
+        });
+</script>
+
+
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static '/style/pregled_clanka.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static '/style/ui_stilovi.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static '/style/main_page.css' %}" type="text/css">
+    <style>
+        form:nth-child(2) {
+            margin: 10px;
+        }
+
+        input,
+        select {
+            margin: 5px;
+        }
+    </style>
+
+
+{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+
+<div class="container bird-container">
+    <div class="kartica" id="prijava_f">
+    <h1 id="title_text_start_tracking">Prijava na obaveštenja o izmeni članka (izmena bitnih informacija):</h1>
+    <hr>
+    {% if show_question == 1 %}
+        <span>Da li zelite da primate obaveštenja i na e-mail?</span>
+        <input type="checkbox" id="checkbox_confirm">DA<br>
+    {% endif %}
+
+    <div class="text-center mt-3">
+        <button type="button" class="btn btn-success mr-2 prijava_button" id="prijavi_button_ID"><i class="fas fa-check"></i> Prijavi se</button>
+        <button type="button" class="btn btn-secondary prijava_button" id="odustani_button_ID"><i class="fas fa-times"></i> Odustani</button>
+    </div>
+
+    </div>
+
+    <div class="row container bird-info justify-content-center" style="display: none" id="uspesna_prijava">
+        <div class="col-12 prijava_div">
+            <div class="alert alert-success" role="alert">
+                Uspešno ste se prijavili za praćenje izmena.
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-success prijava_button" id="povratak_button_ID"><i class="fas fa-arrow-left"></i> Povratak</button>
+                <script>
+                    document.getElementById('povratak_button_ID').addEventListener('click',function(){
+                        window.location.href = document.referrer;
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

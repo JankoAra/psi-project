@@ -1,0 +1,92 @@
+<!-- Autor: Janko Arandjelovic 2021/0328 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slobodna enciklopedija ptica Srbije</title>
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="./style/styles_janko.css" type="text/css">
+    <link rel="stylesheet" href="./style/main_page.css">
+    <link rel="stylesheet" href="./style/ui_stilovi.css">
+
+    <style>
+        form:nth-child(2) {
+            margin: 10px;
+        }
+
+        input,
+        select {
+            margin: 5px;
+        }
+    </style>
+
+    <script>
+        function nazad(event) {
+            event.preventDefault();
+            history.back();
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- Glavna navigaciona traka - Meni -->
+    <nav class="navbar navbar-expand-sm navbar-dark sticky-top">
+        <div class="row">
+            <a class="navbar-brand" href="pregled_clanka_urednik.html" id="logo-name-link">
+                <img src="./images/logo.png" alt="Avatar Logo" style="height: 70px;">
+                <span style="max-width: 50px;">Slobodna enciklopedija ptica Srbije</span>
+            </a>
+        </div>
+        <div class="container">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index_neulogovani.html">Početna</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav" id="nav-profile">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-outline-light" id="ulogovan_button">Ulogovani kao: Urednik</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-outline-light" id="dugme_odjava">Odjava</button>
+                </li>
+                <li><img id="inbox" src="images/inbox.png" alt="Inbox"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <form class="kartica" onsubmit="nazad(event);">
+        <h1>Izmeni tabelu osnovnih informacija</h1><hr>
+        <input type="text" class="form-control tekst-unos" placeholder="Vrsta" value="Lorem"><br>
+        <input type="text" class="form-control tekst-unos" placeholder="Rod" value="Ipsum"><br>
+        <input type="text" class="form-control tekst-unos" placeholder="Porodica" value="Dolor"><br>
+        <input type="text" class="form-control tekst-unos" placeholder="Red" value="Sit"><br>
+        <input type="text" class="form-control tekst-unos" placeholder="Klasa" value="Amet"><br>
+        <input type="text" class="form-control tekst-unos" placeholder="Tip" value="Elit"><br>
+        <input type="text" class="form-control tekst-unos" placeholder="Carstvo" value="Sed"><br>
+        <input type="text" class="form-control tekst-unos" placeholder="Težina" value="10kg"><br>
+        <input type="text" class="form-control tekst-unos" placeholder="Veličina" value="100cm"><br>
+
+        <span>Status ugroženosti</span>
+        <select class="form-select">
+            <option>Nije ugrožen</option>
+            <option>Osetljivi</option>
+            <option value="vrlo_ugrozen">Vrlo ugrožen</option>
+        </select><br>
+
+        <button type="submit" class="btn dugme w-100 d-block">Sačuvaj izmene</button><br>
+        <button class="btn dugme w-100">Poništi izmene</button>
+    </form>
+    <script src="jScripts/inicijalizacija.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,3 @@
+U tableu Diskusija u bazi dodata kolona naslovDiskusije.
+
+Svim kolonama vezanim za datume dodeljena default vrednost CURRENT_TIMESTAMP()

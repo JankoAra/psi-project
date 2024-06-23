@@ -1,0 +1,57 @@
+<!-- Srđan Lučić 0260/2021 -->
+
+{% extends 'base.html' %}
+
+{% block extras %}
+    {% load static %}
+    <script src="{% static 'js/prikaz_jedne_poruke.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="kartica">
+            <div class="row">
+                <div class="col-12">
+                    <h1 id="title_text"> Sva obaveštenja </h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table">
+                        <tr>
+                            <th>Datum i vreme</th>
+                            <th>Tip obaveštenja</th>
+                            <th>Kratak sadržaj</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <!-- TODO: prikazivati procitane tamnijom bojom -->
+                        {% for message in messages %}
+                        {% if message.read == 0 %}
+                            <tr id="row_{{ message.id }}">
+                                <td>{{ message.date_time }}</td>
+                                <td>{{ message.type }}</td>
+                                <td>{{ message.content }}</td>
+                                <td><a href="{{ message.path }}">Otvori</a></td>
+                                <td>
+                                    <button type="submit" class="btn btn-danger button_delete_message" id="delete_btn_{{ message.id }}">X</button>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr id="row_{{ message.id }}">
+                                <td style="background: #dddddd">{{ message.date_time }}</td>
+                                <td style="background: #dddddd">{{ message.type }}</td>
+                                <td style="background: #dddddd">{{ message.content }}</td>
+                                <td style="background: #dddddd"><a href="{{ message.path }}" id="open_link_{{ message.id }}">Otvori</a></td>
+                                <td style="background: #dddddd">
+                                    <button type="submit" class="btn btn-danger button_delete_message" id="delete_btn_{{ message.id }}">X</button>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

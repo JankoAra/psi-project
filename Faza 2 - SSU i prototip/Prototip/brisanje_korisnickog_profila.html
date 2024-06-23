@@ -1,0 +1,195 @@
+<!-- Autor: Jaroslav Veseli 2021/0480 -->
+
+<!DOCTYPE html>
+<html lang="rs">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Font. -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+
+        <!-- Bootstrap. -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+        <!-- CSS. -->
+        <link rel="stylesheet" href="./style/nav_style.css">
+        <link rel="stylesheet" href="./style/ui_stilovi.css">
+        <link rel="stylesheet" href="./style/main_page.css">
+        <link rel="stylesheet" href="./style/ui_stilovi.css">
+
+        <link rel="icon" type="image" href="./images/favicon.ico">
+        <title>Slobodna enciklopedija ptica Srbije</title>
+        
+        <script>
+            function scrollToElement(value) {
+                const tdElements = $("td").filter(function() { return $(this).text().trim() === value; });
+                if (tdElements.length > 0) {
+                    tdElements[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } 
+                else {
+                    alert("Korisnik sa tim korisničkim imenom odnosno e-mail adresom ne postoji!");
+                }
+            }
+            
+            function keyboardHandler(event) {
+                if (event.keyCode == 13) {
+                    scrollToElement(document.getElementById('searchInput').value);
+                }
+            }
+            
+            function deleteUser(button) {
+                var confirmation = confirm("Da li si siguran da želiš da obrišes ovog korisnika?");
+                if (confirmation) {
+                    var tr = button.parentNode.parentNode;
+                    tr.parentNode.removeChild(tr);
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <nav>
+            <div id="naslov">
+                <img id="naslov-logo" src="./images/logo.png" alt="Logo"/>
+                <h1 id="naslov-tekst">Slobodna enciklopedija ptica Srbije</h1>
+            </div>
+            
+            <ul id="linkovi">
+                <li><a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="./index_admin.html">Početna stranica</a></li>
+            </ul>
+            
+            <div id="nalog">
+                <button type="button" class="btn btn-outline-light" id="dugme_odjava">Odjavi se</button>
+            </div>
+        </nav>         
+        
+        <section>
+            <div class="kartica">
+                <h1>Pretraži korisnike u sistemu</h1><hr/>
+                <input id="searchInput" class="form-control tekst-unos" type="text" placeholder="Unesi korisničko ime ili e-mail adresu..." onkeydown="keyboardHandler(event)"/><br/>
+                <button type="button" class="btn w-100 dugme" onclick="scrollToElement(document.getElementById('searchInput').value)">Pretraga</button>
+            </div>
+            
+            <div class="kartica">
+                <h1>Lista svih korisnika u sistemu</h1><hr/>
+
+                <table id="tabela-korisnika" class="table table-striped table-bordered">
+                    <tr>
+                        <th>#</th>
+                        <th>Korisnicko Ime</th>
+                        <th>E-Mail Adresa</th>
+                        <th>-</th>
+                    </tr> 
+                    
+                    <tr id="pera_peric">
+                        <td>1</td>
+                        <td>pera_peric</td>
+                        <td>pera.peric@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+
+                    <tr id="marko_markovic">
+                        <td>2</td>
+                        <td>marko_markovic</td>
+                        <td>marko.markovic@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+
+                    <tr id="jovan_jovanovic">
+                        <td>3</td>
+                        <td>jovan_jovanovic</td>
+                        <td>jovan.jovanovic@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+
+                    <tr id="stefan_stefanovic">
+                        <td>4</td>
+                        <td>stefan_stefanovic</td>
+                        <td>stefan.stefanovic@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+
+                    <tr id="milica_stojanovic">
+                        <td>5</td>
+                        <td>milica_stojanovic</td>
+                        <td>milica.stojanovic@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+
+                    <tr id="aleksandar_popovic">
+                        <td>6</td>
+                        <td>aleksandar_popovic</td>
+                        <td>aleksandar.popovic@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+
+                    <tr id="ana_pavlovic">
+                        <td>7</td>
+                        <td>ana_pavlovic</td>
+                        <td>ana.pavlovic@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+
+                    <tr id="testnalog">
+                        <td>8</td>
+                        <td>testnalog</td>
+                        <td>test.nalog@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+                    <tr id="Laura_Davis">
+                        <td>9</td>
+                        <td>zika_zivkovic</td>
+                        <td>zika.zivkovic@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+                    <tr id="William_Miller">
+                        <td>10</td>
+                        <td>perica</td>
+                        <td>perica123@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+                    <tr id="Emma_Thomas">
+                        <td>11</td>
+                        <td>nepoznati</td>
+                        <td>anonimus321@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+                    <tr id="Christopher_Walker">
+                        <td>12</td>
+                        <td>bezimeni</td>
+                        <td>bezimeni288@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+                    <tr id="Samantha_Hall">
+                        <td>13</td>
+                        <td>fenix</td>
+                        <td>fenix@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+
+                    <tr id="Matthew_Clark">
+                        <td>14</td>
+                        <td>crni_orao</td>
+                        <td>crni_orao9999@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+
+                    <tr id="Ashley_Wright">
+                        <td>15</td>
+                        <td>golub</td>
+                        <td>golub787@gmail.com</td>
+                        <td><button class="btn dugme-brisanja" onclick="deleteUser(this)">Obriši</button></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+        <script src="jScripts/inicijalizacija.js"></script>
+    </body>
+</html>

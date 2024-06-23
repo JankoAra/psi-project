@@ -1,0 +1,53 @@
+<!-- Jaroslav Veseli 2021/0480 -->
+
+
+{% extends 'base.html' %}
+
+{% block extras %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/style/login.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="kartica">
+            <h2 class="prijava_naslov">{{ register_title }}</h2>
+            <hr>
+
+            <form class="prijava_div" action="" method="POST">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td class="labela_prijava">Korisničko ime:</td>
+                        <td class="polje_prijava"><input id="usernameInput" name="username" class="tekst-unos form-control w-100" type="text" value="{{ old_form.username }}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td class="labela_prijava">E-mail adresa:</td>
+                        <td class="polje_prijava"><input id="emailInput" name="email" class="tekst-unos form-control w-100" type="email" value="{{ old_form.email }}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td class="labela_prijava">Lozinka:</td>
+                        <td class="polje_prijava"><input id="passInput" name="password1" class="tekst-unos form-control w-100" type="password"/></td>
+                    </tr>
+
+                    <tr>
+                        <td class="labela_prijava">Potvrda lozinke:</td>
+                        <td class="polje_prijava"><input id="passConfirmInput" name="password2" class="tekst-unos form-control w-100" type="password"/></td>
+                    </tr>
+
+                    <tr>
+                        <td id="greskaRegistracija" colspan="2" style="color: red;">{{ errors }}</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <button type="submit" class="btn w-100 dugme">{{ submit_btn_text }}</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </section>
+{% endblock %}

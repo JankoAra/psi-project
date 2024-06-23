@@ -1,0 +1,7 @@
+venv/
+.idea/
+__pycache__/
+.venv/
+.vscode/
+prototip_stranice/
+todo.txt

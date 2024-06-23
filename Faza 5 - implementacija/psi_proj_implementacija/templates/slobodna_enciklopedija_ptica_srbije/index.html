@@ -1,0 +1,82 @@
+<!-- Srđan Lučić 0260/2021 -->
+
+{% extends 'base.html' %}
+
+{% block extras %}
+{% load static %}
+    <script src="{% static '/js/index.js' %}"></script>
+    <script>
+        let numberOfLoadedArticles = "{{ number_of_loaded_articles }}";
+        let csrfToken = "{{ csrf_token }}";
+        let totalArticles = "{{ total_articles }}";
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-3">
+        <form class="d-flex" id="search_form" method="POST">
+            {% csrf_token %}
+            <input class="form-control me-2 tekst-unos" type="search" placeholder="Pretraži članak" aria-label="Search" id="search_input" name="search_input">
+            <button class="btn btn-success" type="submit">Pretraži</button>
+        </form>
+    </div>
+    
+    <div class="container" id="container-article-brief">
+    {% for overview in articles %}
+        <div class="row bird-container bird-info">
+                <!--div class="bird-info d-flex"-->
+                    <div class="col-lg-4 col-6 bird-image d-flex flex-column justify-content-center"> <!--mr-3-->
+                        <img style="max-width: 100%" src={{ overview.image }} alt={{ overview.species }}>
+                    </div>
+
+                    <div class="col-lg-8 col-6 bird-details">
+                        <h3 class="bird-naslov text-right">{{ overview.species }}</h3>
+                        <h6 class="bird-naslov text-right">{{ overview.creationDate }}</h6>
+                        <h6 class="bird-naslov text-right">Prosečna ocena: <kbd> {{ overview.avg_pts }} </kbd></h6>
+                        <table class="bird-table float-right">
+                            <tr>
+                                <th class="bird-th">Vrsta</th>
+                                <td class="bird-td">{{ overview.species }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bird-th">Porodica</th>
+                                <td class="bird-td">{{ overview.family }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bird-th">Težina (u g)</th>
+                                <td class="bird-td"> {{ overview.weight }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bird-th">Veličina (u cm)</th>
+                                <td class="bird-td"> {{ overview.size }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bird-th">Status ugroženosti</th>
+                                <td class="bird-td"><div class="w-35 bg-warning">{{ overview.conservation }}</div></td>
+                            </tr>
+                        </table>
+
+                        <p class="bird-p"> <!--text-right-->
+                            {{ overview.text }}
+                            <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" 
+                            href={{ overview.routeToArticle }} class="link_to_article">Detaljnije</a>
+                        </p>
+                    </div>
+            <!--/div-->
+        </div>
+    {% endfor %}
+    </div>
+    
+    {% if view == 'all' %}
+        <div class="row">
+            <div class="col-12">
+                <div class="btn-load-more">
+                    <button class="btn btn-success" id="load_more_button">Učitajte više...</button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+

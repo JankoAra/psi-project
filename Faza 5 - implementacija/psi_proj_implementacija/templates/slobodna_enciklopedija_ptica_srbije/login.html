@@ -1,0 +1,51 @@
+<!-- Jaroslav Veseli 2021/0480 -->
+
+
+{% extends 'base.html' %}
+
+{% block extras %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/style/login.css' %}" xmlns="http://www.w3.org/1999/html">
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="kartica">
+            <h2 class="prijava_naslov">Prijava na korisnički profil</h2>
+            <hr>
+
+            <div class="row">
+                <form class="col-12 prijava_div" action="" method="POST">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td class="labela_prijava">Korisničko ime:</td>
+                            <td class="polje_prijava"><input id="korisnickoImePrijava" class="form-control tekst-unos" type="text" name="username" value="{{ old_form.username }}"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="labela_prijava">Lozinka:</td>
+                            <td class="polje_prijava"><input id="lozinkaPrijava" class="form-control tekst-unos" name="password" type="password"></td>
+                        </tr>
+
+                        {% if show_error %}
+                        <tr>
+                            <td colspan="2" id="greskaPrijava" style="color:red">Niste uneli ispravne kredencijale ili korisnik ne postoji!</td>
+                        </tr>
+                        {% endif %}
+
+                        <tr>
+                            <td style="text-align: center;" colspan="2">
+                                <input type="submit" class="btn w-100 dugme" id="prijava_button_ID" value="Prijava"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">Ukoliko nemate nalog, možete da se <a href="{% url 'user_register' %}">registrujete</a>.</td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

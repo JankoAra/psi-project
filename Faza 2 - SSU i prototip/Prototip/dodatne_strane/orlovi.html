@@ -1,0 +1,140 @@
+<!--Andjela Ciric 0066/2021-->
+<!DOCTYPE html>
+<html lang="rs">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Font. -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+
+        <!-- Bootstrap. -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+        <!-- CSS. -->
+        <link rel="stylesheet" href="../style/nav_style.css">
+        <link rel="stylesheet" href="../style/ui_stilovi.css">
+        <link rel="stylesheet" href="../style/main_page.css">
+        <link rel="icon" type="image" href="../images/favicon.ico">
+        <script src="../jScripts/pretraga_clanak.js"></script>
+        <title>Slobodna Enciklopedija ptica Srbije</title>
+    </head>
+
+    <body class="bodyMain">
+        <nav class>
+            <div id="naslov">
+                <img id="naslov-logo" src="../images/logo.png" alt="Logo"/>
+                <h1 id="naslov-tekst">Slobodna enciklopedija ptica Srbije</h1>
+            </div>
+            
+            <ul id="linkovi">
+                <li><a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="../index_neulogovani.html">Početna stranica</a></li>
+                <!--<li><a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="">Pretraga Članaka</a></li>-->
+            </ul>
+            
+            <div id="nalog">
+                <button type="button" class="btn btn-outline-light" id="button_to_prijava">Prijava</button>
+                <button type="button" class="btn btn-outline-light" id="button_to_registracija">Registracija</button>
+                
+            </div>
+
+            <div id="ikonice">
+                <img id="inbox" src="../images/inbox.png" alt="Inbox">
+            </div>
+        </nav>
+        <div class="container mt-3">
+            <form class="d-flex" id="search_form">
+                <input class="form-control me-2 tekst-unos" type="search" placeholder="Pretraži članak" aria-label="Search" id="search_input">
+                <button class="btn btn-success" type="submit">Pretraži</button>
+            </form>
+        </div>
+        <div class="container bird-container">
+            <div class="bird-info d-flex">
+                <div class="bird-image mr-3"><a href="../index.html"><img id="belorepan" src="../images/orao_belorepan.jpg" alt="Slika orao_belorepan"></a></div>
+        
+                <div class="bird-details">
+                    <h3 class="bird-naslov text-right">Orao belorepan</h3>
+                    <h6 class="bird-naslov text-right">3.4.2024. 4:25AM</h6>
+                <h6 class="bird-naslov text-right">Prosečna ocena: <kbd>9.5</kbd></h6>
+                    <table class="bird-table float-right">
+                        <tr>
+                            <th class="bird-th">Vrsta</th>
+                            <th class="bird-th">Rod</th>
+                            <th class="bird-th">Porodica</th>
+                            <th class="bird-th">Red</th>
+                            <th class="bird-th">Klasa</th>
+                            <th class="bird-th">Tip</th>
+                            <th class="bird-th">Carstvo</th>
+                            <th class="bird-th">Status ugroženosti</th>
+                        </tr>
+                        <tr>
+                            <td class="bird-td">A. heliaca</td>
+                            <td class="bird-td">Aquila</td>
+                            <td class="bird-td">Accipitridae</td>
+                            <td class="bird-td">Accipitrifomes</td>
+                            <td class="bird-td">Aves</td>
+                            <td class="bird-td">Chordata</td>
+                            <td class="bird-td">Animalia</td>
+                            <td class="bird-td"><div class="w-35 bg-warning">Osetljivi</div></td>
+                        </tr>
+                    </table>
+        
+                    <p class="bird-p text-right">
+                        Belorepan, poznat i kao orao belorepan ili štekavac, vrsta je ptice iz porodice jastrebova i najveći je orao Evrope.Perje je braon boje sa svetlijim delovima sa spoljašnje i unutrašnje strane krila. Sa zrelošću ptice svetlije nijanse dobijaju na intenzitetu. Potpuno beo rep je znak pune zrelosti. Dužina od repa do glave je od 70 do 90 santimetara dok raspon krila varira između 2.0 do 2.4 metra. Rasprostranjen je od severne Evrope (zapadna Irska, obala Norveške) prema istočnoj i Južnoj, pa preko zemalja bivšeg SSSR-a na istok do Kamčatke i Japana. Do pre jedne decenije bio je na ivici istrebljenja ali je intenzivnim merama zaštite broj ptica u divljini značajno porastao i danas je njegova evropska populacija stabilna.
+                        <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="#">Detaljnije</a>
+                    </p>
+                </div>
+            </div>
+        </div>     
+        
+        <div class="container bird-container">
+            <div class="bird-info d-flex">
+                <div class="bird-image mr-3"><a href="../index.html"><img id="krstas" src="../images/orao_krstas.jpg" alt="Slika orao_krstas"></a></div>
+        
+                <div class="bird-details">
+                    <h3 class="bird-naslov text-right">Orao krstaš</h3>
+                    <h6 class="bird-naslov text-right">13.3.2024. 4:25AM</h6>
+                <h6 class="bird-naslov text-right">Prosečna ocena: <kbd>9.5</kbd></h6>
+                    <table class="bird-table float-right">
+                        <tr>
+                            <th class="bird-th">Vrsta</th>
+                            <th class="bird-th">Rod</th>
+                            <th class="bird-th">Porodica</th>
+                            <th class="bird-th">Red</th>
+                            <th class="bird-th">Klasa</th>
+                            <th class="bird-th">Tip</th>
+                            <th class="bird-th">Carstvo</th>
+                            <th class="bird-th">Status ugroženosti</th>
+                        </tr>
+                        <tr>
+                            <td class="bird-td">A. heliaca</td>
+                            <td class="bird-td">Aquila</td>
+                            <td class="bird-td">Accipitridae</td>
+                            <td class="bird-td">Accipitrifomes</td>
+                            <td class="bird-td">Aves</td>
+                            <td class="bird-td">Chordata</td>
+                            <td class="bird-td">Animalia</td>
+                            <td class="bird-td"><div class="w-35 bg-warning">Osetljivi</div></td>
+                        </tr>
+                    </table>
+        
+                    <p class="bird-p text-right">
+                        Orao krstaš, ili carski ili kraljevski orao (lat. Aquila heliaca), je impozantna grabljivica koja je nekada naseljavala široke predele Evroazije, a danas je, pre svega zbog gubitka staništa, među ugroženim vrstama. Veoma sličan surom, krstaš je nešto manji, dužine do 83 cm i raspona krila do 205 cm. Španski orao krstaš (lat. Aquila adalberti) koji naseljava Iberijsko poluostrvo nekada je smatran za podvrstu krstaša, dok se danas zbog značajnih morfoloških razlika smatra za zasebnu vrstu.
+
+                        Rasprostranjen je od jugoistočne i srednjoj Evrope, do zapadne i srednje Azije . Orao krstaš naseljava uglavnom predele do 1000 metara nadmorske visine, ne preterano pošumljene. Ptica za gnezdo bira visoko usamljeno drvo sa kojeg ima pregled širokog terena. Nažalost ovo je jedna od činjenica koja ju je učinila veoma podložnom ljudskom ometanju staništa, pljačkanju ili uništavanju gnezda...
+                        <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="#">Detaljnije</a>
+                    </p>
+                </div>
+            </div>
+        </div>     
+        
+        <script src="../jScripts/inicijalizacija.js"></script>
+        
+    </body>
+</html>

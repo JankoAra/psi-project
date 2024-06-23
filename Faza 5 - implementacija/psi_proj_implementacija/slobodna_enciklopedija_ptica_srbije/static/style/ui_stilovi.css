@@ -1,0 +1,60 @@
+/* Autor: Jaroslav Veseli 2021/0480 */
+
+.kartica {
+    margin: 25px;
+    padding: 25px;
+    border: 1px solid #011e02;
+    background-color: #dcf5de;
+    box-shadow: 2px 2px 5px 0px #444444;
+    border-radius: 10px;
+}
+
+.kartica h1 {
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.kartica hr {
+    border-top: 2px solid #000000;
+    margin: 1em 0;
+}
+
+.dugme {
+    background-color: rgb(28, 123, 64);
+    border-color: rgb(28, 123, 64);
+    color: #ffffff;
+}
+
+.dugme:hover {
+    background-color: rgb(18, 81, 42);
+    border-color: rgb(18, 81, 42);
+    color: #ffffff;
+}
+
+.dugme-brisanja {
+    background-color: rgb(28, 123, 64);
+    border-color: rgb(28, 123, 64);
+    color: #ffffff;
+}
+
+.dugme-brisanja:hover {
+    background-color: #d63022;
+    border-color: #d63022;
+    color: #ffffff;
+}
+
+.tekst-unos {
+    border-color: rgb(28, 123, 64);
+}
+
+input.tekst-unos[type="text"]:focus, .tekst-unos:hover, .tekst-unos:focus {   
+   border-color: rgb(28, 123, 64);
+   box-shadow: 0 0 4px rgba(108, 239, 82, 0.733);
+   outline: 0 none;
+}
+
+select:hover, select:focus {
+   border-color: rgb(28, 123, 64);
+   box-shadow: 0 0 4px rgba(108, 239, 82, 0.733);
+   outline: 0 none;
+}

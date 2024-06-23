@@ -1,0 +1,123 @@
+<!-- Jaroslav Veseli 2021/0480 -->
+
+
+{% extends 'base.html' %}
+
+{% block extras %}
+<script>
+    function confirmArticleCreation(event) {
+        if(!confirm("Da li ste sigurni da želite da kreirate nov članak?")) {
+            event.preventDefault(); 
+        }
+    }
+    
+    function roundInputValue(input) {
+        let val = $(input).val();
+        let floatVal = parseFloat(val);
+        let parts = val.split('.');
+        
+        // Provera donje granice. Na back-endu se takodje vrsi provera.
+        if (floatVal < 0) {
+            $(input).val(0);
+            return;
+        }
+        
+        // Provera gornje granice. Na back-endu se takodje vrsi provera.
+        let maxValue = 99999999.99;
+        if (floatVal >= maxValue) {
+            $(input).val(maxValue);
+            return;
+        }
+
+        // Zaokruzivanje do dve cifre.
+        if (!isNaN(parseFloat(val)) && val.includes('.') && parts[1].length > 2) {
+            let newVal = (parts[0] + '.' + parts[1].slice(0, 2));
+            $(input).val(newVal);
+        }
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <form action="" method="POST" enctype="multipart/form-data" onsubmit="confirmArticleCreation(event);">
+            {% csrf_token %}
+            <div class="kartica">
+                <h1>Unesi osnovne informacije</h1>
+                {% if error_msg %}
+                <p id="error_msg" style="color: red;">{{ error_msg }}</p>
+                {% endif %}
+                <hr/>
+
+                <table class="table table-light table-bordered">
+                    <tr>
+                        <th>Atribut</th>
+                        <th>Vrednost</th>
+                    </tr>
+
+                    <tr>
+                        <td>Vrsta</td>
+                        <td><input id="vrsta" class="tekst-unos form-control w-100" type="text" placeholder="Unesite vrstu..." name="vrsta" value="{{ old_form.vrsta }}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Rod</td>
+                        <td><input id="rod" class="tekst-unos form-control w-100" type="text" placeholder="Unesite rod..." name="rod" value="{{ old_form.rod }}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Porodica</td>
+                        <td><input id="porodica" class="tekst-unos form-control w-100" type="text" placeholder="Unesite porodicu..." name="porodica" value="{{ old_form.porodica }}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Red</td>
+                        <td><input id="red" class="tekst-unos form-control w-100" type="text" placeholder="Unesite red..." name="red" value="{{ old_form.red }}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Klasa</td>
+                        <td><input id="klasa" class="tekst-unos form-control w-100" type="text" placeholder="Unesite klasu..." name="klasa" value="{{ old_form.klasa }}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Tip</td>
+                        <td><input id="tip" class="tekst-unos form-control w-100" type="text" placeholder="Unesite tip..." name="tip" value="{{ old_form.tip }}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Carstvo</td>
+                        <td><input id="carstvo" class="tekst-unos form-control w-100" type="text" placeholder="Unesite carstvo..." name="carstvo" value="{{ old_form.carstvo }}"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Težina [gr]</td>
+                        <td>
+                            <input id="tezina" class="tekst-unos form-control w-100" type="number" step=".01" placeholder="Unesite težinu u gramima [gr]..." name="tezina" value="{{ old_form.tezina }}" oninput="roundInputValue(this);"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Veličina [cm]</td>
+                        <td><input id="velicina" class="tekst-unos form-control w-100" type="number" step=".01" placeholder="Unesite veličinu u centimetrima [cm]..." name="velicina" value="{{ old_form.velicina }}" oninput="roundInputValue(this);"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>Status ugroženosti</td>
+                        <td><input id="status-ugrozenosti" class="tekst-unos form-control w-100" type="text" placeholder="Unesite status ugroženosti..." name="status_ugrozenosti" value="{{ old_form.status_ugrozenosti }}"/></td>
+                    </tr>
+                </table>
+
+                <p>Izaberite sliku sa vašeg računara koja verno predstavlja vrstu ptice:</p>
+                <input id="slika" class="form-control dugme" type="file" accept="image/png, image/jpeg" name="slika_vrste">
+            </div>
+
+            <div class="kartica">
+                <h1>Unesi glavni sadržaj članka</h1>
+                <hr/>
+                <textarea id="glavniTekst" class="tekst-unos textarea form-control w-100" placeholder="Napiši članak..." rows="25" name="sadrzaj">{{ old_form.sadrzaj }}</textarea><br/>
+                <button type="submit" class="btn w-100 dugme">Kreiraj nov članak</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}

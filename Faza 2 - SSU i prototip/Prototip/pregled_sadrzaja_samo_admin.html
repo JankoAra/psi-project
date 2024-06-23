@@ -1,0 +1,460 @@
+<!--Autor: Janko Arandjelovic 2021/0328 -->
+<!-- Jaroslav Veseli 2021/0480 -->
+<!--Andjela Ciric 2021/0066-->
+<!--Srdjan Lucic 2021/0260-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slobodna enciklopedija ptica Srbije</title>
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+     <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="./style/styles_janko.css" type="text/css">
+    <link rel="stylesheet" href="./style/main_page.css">
+    <link rel="stylesheet" href="./style/ui_stilovi.css">
+   
+    <script src="jScripts/pregled_clanka_inbox.js"></script>
+
+    <script>
+        var post = 4;
+        function prikaziFormuZaDiskusiju() {
+            document.getElementById("nova_diskusija").style.display = "block";
+        }
+
+        function sakrijFormuZaDiskusiju() {
+            document.getElementById("nova_diskusija").style.display = "none";
+        }
+
+        function potvrdiDiskusiju() {
+            var tekstDiskusije = document.getElementById("tekst_diskusije").value;
+
+            var novaDiskusija = document.createElement("div");
+            novaDiskusija.className = "post";
+            novaDiskusija.id = "post" + post.toString();
+            //var postS=novaDiskusija.id;
+            post += 1;
+            // alert(novaDiskusija.id);
+            novaDiskusija.innerHTML = `
+                <h4>Nova Diskusija</h4>
+                <button class='prijava_diskusije_button'>Prijavi nepravilnost</button>
+                <p>${tekstDiskusije}</p>
+                <button class="btn w-100 dugme-brisanja" onclick="deleteMe(this);">Obriši celu diskusiju</button>
+                <hr>
+                <h6>Komentari</h6>
+                <button style="color: rgb(162, 121, 67); font-weight: bold; font-size: 15px;" onclick="prikaziFormuZaKomentar(this, '${novaDiskusija.id}')">+ Dodaj komentar</button>
+                <div class="forma_komentar" style="display: none;">
+                            <form>
+                                <textarea rows="5" cols="100"></textarea><br>
+                                <button type="button" onclick="potvrdiKomentar(this, '${novaDiskusija.id}')">Potvrdi</button>
+                                <button type="button" onclick="odustaniOdKomentara(this, '${novaDiskusija.id}')">Odustani</button>
+                            </form>
+                </div>
+            `;
+
+            var insertPlace = document.getElementById("prePrvogPosta");
+            insertPlace.parentNode.insertBefore(novaDiskusija, insertPlace.nextSibling);
+    
+            sakrijFormuZaDiskusiju();
+        }
+
+        function odustaniOdDiskusije() {
+            sakrijFormuZaDiskusiju();
+        }
+
+        function prikaziFormuZaKomentar(button, postId) {
+            var postElement = document.getElementById(postId);
+            var formaKomentara = postElement.querySelector(".forma_komentar");
+            formaKomentara.style.display = "block";
+        }
+
+        function potvrdiKomentar(button, postId) {
+            var postElement = document.getElementById(postId);
+            var formaKomentara = postElement.querySelector(".forma_komentar");
+            var tekstKomentara = formaKomentara.querySelector("textarea").value;
+
+            var noviKomentar = document.createElement("div");
+            noviKomentar.className = "comment";
+            noviKomentar.innerHTML = `
+                <p>${tekstKomentara}</p>
+                <p>Posted by: Commenter Name</p>
+                <button class='prijava_diskusije_button'>Prijavi nepravilnost</button>
+                <button class="btn w-100 dugme-brisanja" onclick="deleteMe(this);">Obriši komentar</button>
+            `;
+
+            var postElement = button.closest(".post");
+            var komentariElement = postElement.querySelector(".comment-container");
+            if (!komentariElement) {
+                komentariElement = document.createElement("div");
+                komentariElement.className = "comment-container";
+                postElement.appendChild(komentariElement);
+            }
+            komentariElement.insertBefore(noviKomentar, komentariElement.firstChild);
+            formaKomentara.style.display = "none";
+        }
+
+        function odustaniOdKomentara(button, postId) {
+            var postElement = document.getElementById(postId);
+            var formaKomentara = postElement.querySelector(".forma_komentar");
+            formaKomentara.style.display = "none";
+        }
+    </script>
+    <script>
+        // Jaroslav Veseli 2021/0480: Brisanje diskusija, brisanje komentara, ocenjivanje clanaka.
+        var cnt = 0;
+        function rateArticle(button) {
+            if (cnt % 2 === 0) {
+                alert("Ne možete oceniti članak ako ste vlasnik istog!");
+            }
+            else {
+                alert("Uspešno ste ocenili članak! Hvala Vam na Vašem mišljenju!");
+                if (parseInt(button.textContent) == 9) {
+                    document.getElementById("prosecna-ocena").textContent = "Trenutna prosečna ocena: 9.0";
+                }
+                else if (parseInt(button.textContent) == 10) {
+                    document.getElementById("prosecna-ocena").textContent = "Trenutna prosečna ocena: 10.0";
+                }
+                else {
+                    document.getElementById("prosecna-ocena").textContent = "Trenutna prosečna ocena: 7.5";
+                }
+            }
+            ++cnt;
+        }
+
+        function deleteMe(button) {
+            var confirmation = confirm("Da li si siguran da želiš da obrišeš ovo?");
+            if (confirmation) {
+                var parent = button.parentNode;
+                parent.parentNode.removeChild(parent);
+            }
+        } 
+    </script>
+</head>
+
+<body>
+    <!-- Glavna navigaciona traka - Meni -->
+    <nav class="navbar navbar-expand-sm navbar-dark sticky-top">
+        <div class="row">
+            <a class="navbar-brand" href="pregled_sadrzaja_samo_admin.html" id="logo-name-link">
+                <img src="./images/logo.png" alt="Avatar Logo" style="height: 70px;">
+                <span style="max-width: 50px;">Slobodna enciklopedija ptica Srbije</span>
+            </a>
+        </div>
+        <div class="container">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="./index_admin.html">Početna</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav" id="nav-profile">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-outline-light">Ulogovani kao: Admin</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-outline-light" id="dugme_odjava">Odjava</button>
+                </li>
+                <li><img id="inbox" src="images/inbox.png" alt="Inbox"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tabovi clanka -->
+    <div class="container-fluid mt-4">
+        <!-- Navigacija pomocu tabova -->
+        <ul class="nav nav-tabs" id="myTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#content1"
+                    onclick="sakrijFormuZaDiskusiju()">Informacije</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#content2"
+                    onclick="sakrijFormuZaDiskusiju()">Galerija</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab3" data-bs-toggle="tab" href="#content3">Diskusije</a>
+            </li>
+        </ul>
+
+        <!-- Sadrzaj tabova -->
+        <div class="tab-content mt-2">
+            <!-- Tab 1 - Informacije i tekst -->
+            <div class="tab-pane fade show active clanak kartica" id="content1">
+                <main class="d-flex">
+                    <article style="flex: 1;">
+                        <h2>Ime ptice</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et tincidunt dolor. Proin
+                            volutpat sapien nec tortor cursus, nec consequat lectus lacinia. Nullam eu ex id velit
+                            feugiat dictum. Vestibulum consectetur semper tortor, a vehicula nulla rhoncus vel.
+                            Suspendisse potenti. Quisque nec tristique augue.</p>
+                        <p>Curabitur ultrices justo sit amet justo eleifend, vel venenatis libero malesuada. Aenean
+                            aliquam, justo a tempor vulputate, sem tortor tristique sapien, in cursus leo tellus at
+                            justo. Vivamus et semper turpis.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et tincidunt dolor. Proin
+                            volutpat sapien nec tortor cursus, nec consequat lectus lacinia. Nullam eu ex id velit
+                            feugiat dictum. Vestibulum consectetur semper tortor, a vehicula nulla rhoncus vel.
+                            Suspendisse potenti. Quisque nec tristique augue.</p>
+                        <p>Curabitur ultrices justo sit amet justo eleifend, vel venenatis libero malesuada. Aenean
+                            aliquam, justo a tempor vulputate, sem tortor tristique sapien, in cursus leo tellus at
+                            justo. Vivamus et semper turpis.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et tincidunt dolor. Proin
+                            volutpat sapien nec tortor cursus, nec consequat lectus lacinia. Nullam eu ex id velit
+                            feugiat dictum. Vestibulum consectetur semper tortor, a vehicula nulla rhoncus vel.
+                            Suspendisse potenti. Quisque nec tristique augue.</p>
+                        <p>Curabitur ultrices justo sit amet justo eleifend, vel venenatis libero malesuada. Aenean
+                            aliquam, justo a tempor vulputate, sem tortor tristique sapien, in cursus leo tellus at
+                            justo. Vivamus et semper turpis.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et tincidunt dolor. Proin
+                            volutpat sapien nec tortor cursus, nec consequat lectus lacinia. Nullam eu ex id velit
+                            feugiat dictum. Vestibulum consectetur semper tortor, a vehicula nulla rhoncus vel.
+                            Suspendisse potenti. Quisque nec tristique augue.</p>
+                        <p>Curabitur ultrices justo sit amet justo eleifend, vel venenatis libero malesuada. Aenean
+                            aliquam, justo a tempor vulputate, sem tortor tristique sapien, in cursus leo tellus at
+                            justo. Vivamus et semper turpis.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et tincidunt dolor. Proin
+                            volutpat sapien nec tortor cursus, nec consequat lectus lacinia. Nullam eu ex id velit
+                            feugiat dictum. Vestibulum consectetur semper tortor, a vehicula nulla rhoncus vel.
+                            Suspendisse potenti. Quisque nec tristique augue.</p>
+                        <p>Curabitur ultrices justo sit amet justo eleifend, vel venenatis libero malesuada. Aenean
+                            aliquam, justo a tempor vulputate, sem tortor tristique sapien, in cursus leo tellus at
+                            justo. Vivamus et semper turpis.</p>
+                    </article>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th colspan="2">Slika ptice</th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <img src="images/orao_krstas.jpg" alt="Slika ptice"
+                                        style="width: 100%; height: auto;" class="naslovna-slika">
+                                    <script>
+                                        function removeImage() {
+                                            if (!confirm("Da li zelite da obrisete sliku?")) {
+                                                event.preventDefault();
+                                                return;
+                                            }
+                                            const image = document.querySelector(".naslovna-slika");
+                                            image.src = "./images/placeholder-image.png";
+                                        }
+                                    </script>
+                                    <button onclick="removeImage(event)">Obrisi sliku</button>
+
+                                    <button id="change-cover-image">Promeni sliku</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Informacije</th>
+                            </tr>
+                            <tr>
+                                <td>Vrsta</td>
+                                <td>Lorem</td>
+                            </tr>
+                            <tr>
+                                <td>Rod</td>
+                                <td>Ipsum</td>
+                            </tr>
+                            <tr>
+                                <td>Porodica</td>
+                                <td>Dolor</td>
+                            </tr>
+                            <tr>
+                                <td>Red</td>
+                                <td>Sit</td>
+                            </tr>
+                            <tr>
+                                <td>Klasa</td>
+                                <td>Amet</td>
+                            </tr>
+                            <tr>
+                                <td>Tip</td>
+                                <td>Elit</td>
+                            </tr>
+                            <tr>
+                                <td>Carstvo</td>
+                                <td>Sed</td>
+                            </tr>
+                            <tr>
+                                <td>Težina</td>
+                                <td>10kg</td>
+                            </tr>
+                            <tr>
+                                <td>Veličina</td>
+                                <td>100cm</td>
+                            </tr>
+                            <tr>
+                                <td>Status ugroženosti</td>
+                                <td>Status</td>
+                            </tr>
+                        </table>
+                        <a href="izmena_tabele_informacija.html"><button>Izmeni tabelu informacija</button></a>
+                    </div>
+                </main>
+                <button id="prijava_clanka_button">Prijavi nepravilnost</button>
+                <a href="izmena_clanka.html"><button>Izmeni clanak</button></a>
+            </div>
+            <!-- Tab 2 - Galerija -->
+            <div class="tab-pane fade galerija kartica" id="content2">
+                <h3>Galerija</h3>
+                <div class="image-container">
+                    <div class="image-item">
+                        <img src="images/image1.jpeg" class="img-fluid" alt="Image 1">
+                        <button class="prijava_galerija_button">Prijavi nepravilnost</button>
+                        <button class="delete-button">Obriši sliku</button>
+                    </div>
+                    <div class="image-item">
+                        <img src="images/image2.jpeg" class="img-fluid" alt="Image 2">
+                        <button class="prijava_galerija_button">Prijavi nepravilnost</button>
+                        <button class="delete-button">Obriši sliku</button>
+                    </div>
+                    <div class="image-item">
+                        <img src="images/image3.jpeg" class="img-fluid" alt="Image 3">
+                        <button class="prijava_galerija_button">Prijavi nepravilnost</button>
+                        <button class="delete-button">Obriši sliku</button>
+                    </div>
+                    <div class="image-item">
+                        <img src="images/image4.jpeg" class="img-fluid" alt="Image 4">
+                        <button class="prijava_galerija_button">Prijavi nepravilnost</button>
+                        <button class="delete-button">Obriši sliku</button>
+                    </div>
+                    <div class="image-item">
+                        <img src="images/image4.jpeg" class="img-fluid" alt="Image 4">
+                        <button class="prijava_galerija_button">Prijavi nepravilnost</button>
+                        <button class="delete-button">Obriši sliku</button>
+                    </div>
+                    <div class="image-item">
+                        <img src="images/image5.jpeg" class="img-fluid" alt="Image 4">
+                        <button class="prijava_galerija_button">Prijavi nepravilnost</button>
+                        <button class="delete-button">Obriši sliku</button>
+                    </div>
+                    <div class="image-item">
+                        <img src="images/image6.jpeg" class="img-fluid" alt="Image 4">
+                        <button class="prijava_galerija_button">Prijavi nepravilnost</button>
+                        <button class="delete-button">Obriši sliku</button>
+                    </div>
+                    <div class="image-item">
+                        <img src="images/image7.jpeg" class="img-fluid" alt="Image 4">
+                        <button class="prijava_galerija_button">Prijavi nepravilnost</button>
+                        <button class="delete-button">Obriši sliku</button>
+                    </div>
+                    <div class="image-item">
+                        <img src="images/image7.jpeg" class="img-fluid" alt="Image 4">
+                        <button class="prijava_galerija_button">Prijavi nepravilnost</button>
+                        <button class="delete-button">Obriši sliku</button>
+                    </div>
+                    <div class="image-item">
+                        <img src="images/image2.jpeg" class="img-fluid" alt="Image 4">
+                        <button class="prijava_galerija_button">Prijavi nepravilnost</button>
+                        <button class="delete-button">Obriši sliku</button>
+                    </div>
+                </div>
+                <button id="add-to-gallery-button" class="bg-success">Dodaj sliku</button>
+            </div>
+            <!-- Brisanje slika iz galerije i dodavanje novih slika -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const deleteButtons = document.querySelectorAll('.delete-button');
+
+                    deleteButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            if (!confirm("Da li zelite da obrisete sliku?")) {
+                                event.preventDefault();
+                                return;
+                            }
+                            const imageItem = button.closest('.image-item');
+                            imageItem.remove();
+                        });
+                    });
+
+                    const addToGalleryButton = document.getElementById("add-to-gallery-button");
+                    addToGalleryButton.addEventListener("click", function () {
+                        window.location.href = "./dodavanje_slike_u_galeriju.html";
+                    });
+
+                    const changeCoverImageButton = document.getElementById("change-cover-image");
+                    changeCoverImageButton.addEventListener("click", function () {
+                        window.location.href = "./dodavanje_slike_u_galeriju.html";
+                    });
+                });
+            </script>
+            <!-- Tab 3 - Diskusije -->
+            <div class="tab-pane fade diskusije-tab kartica" id="content3">
+                <h3>Diskusije</h3>
+                <button style="color: rgb(162, 121, 67); font-weight: bold;" onclick="prikaziFormuZaDiskusiju()">+
+                    Kreiraj novu diskusiju</button>
+
+
+                <div id="nova_diskusija" style="display: none;">
+                    <form id="forma_diskusije">
+                        <textarea id="tekst_diskusije" rows="5" cols="100"></textarea><br>
+                        <button type="button" onclick="potvrdiDiskusiju()">Potvrdi</button>
+                        <button type="button" onclick="odustaniOdDiskusije()">Odustani</button>
+                    </form>
+                </div>
+
+                <div id="prePrvogPosta"></div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="ocenjivanje">
+        <h2>Ocenite naš članak:</h2>
+        <hr>
+        <button onclick="rateArticle(this);" class="btn btn-danger">1</button>
+        <button onclick="rateArticle(this);" class="btn btn-danger">2</button>
+        <button onclick="rateArticle(this);" class="btn btn-danger">3</button>
+        <button onclick="rateArticle(this);" class="btn btn-danger">4</button>
+        <button onclick="rateArticle(this);" class="btn btn-warning">5</button>
+        <button onclick="rateArticle(this);" class="btn btn-warning">6</button>
+        <button onclick="rateArticle(this);" class="btn btn-warning">7</button>
+        <button onclick="rateArticle(this);" class="btn btn-warning">8</button>
+        <button onclick="rateArticle(this);" class="btn btn-success">9</button>
+        <button onclick="rateArticle(this);" class="btn btn-success">10</button><br><br>
+        <p id="prosecna-ocena">Trenutna prosečna ocena: 8.5</p>
+    </div>
+    <div id="inbox-section" class="inbox-section">
+        <h3 style="color: rgb(1, 67, 34);">Prijavljene nepravilnosti</h3>
+        <div class="container novost">
+            <div class="row">
+                <h6>Prijavljena diskusija za članak "Orao krstaš"</h6> <br>
+                <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img src="./images/arrow.png" alt="arrow" class="novosti_arrow">
+                    <a href="./pregled_sadrzaja_samo_admin.html" onclick="procitanaNovost(this)"><img
+                            class="clanak_slika" src="./images/orao_clanak.png" alt="orao_clanak"></a> </p>
+                <p style="font-size: 70%;">13.3.2024. 9:18PM</p>
+
+            </div>
+            <button id="dugme-novosti" class="btn btn-outline-light float-end" style="opacity: 0.5;"
+                onclick="procitanaNovost(this)">X</button>
+
+        </div>
+
+        <div class="container novost">
+            <div class="row">
+                <h6>Prijavljen komentar za članak "Slavuj"</h6> <br>
+                <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img src="./images/arrow.png" alt="arrow" class="novosti_arrow">
+                    <a href="./pregled_sadrzaja_samo_admin.html"><img class="clanak_slika" src="./images/slavuj_clanak.png"
+                            alt="slavuj_clanak" onclick="procitanaNovost(this)"></a> </p>
+                <p style="font-size: 70%;">13.3.2024. 9:17PM</p>
+
+            </div>
+            <button id="dugme-novosti" class="btn btn-outline-light float-end" style="opacity: 0.5;"
+                onclick="procitanaNovost(this)">X</button>
+        </div>
+
+
+    </div>
+    <script src="./jScripts/inicijalizacijaPregledJednogClanka.js"></script>
+    <script src="jScripts/inicijalizacija.js"></script>
+     
+</body>
+
+</html>

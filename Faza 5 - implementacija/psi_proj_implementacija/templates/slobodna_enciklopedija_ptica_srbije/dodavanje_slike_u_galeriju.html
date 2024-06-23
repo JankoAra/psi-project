@@ -1,0 +1,36 @@
+<!-- Janko Arandjelovic 2021/0328 -->
+
+
+
+{% extends 'base.html' %}
+
+{% block extras %}
+{% load static %}
+{% endblock %}
+
+{% block content %}
+<form class="kartica" method="POST" action="{% url 'add_image_to_gallery' %}" enctype="multipart/form-data">
+    <h1>Izaberite sliku:</h1>
+    <hr>
+    <p style="color: red;">{{error_msg}}</p>
+    {% csrf_token %}
+    {{ form.article_id }}
+    {{ form.image }}
+    <div class="d-flex flex-column align-items-center justify-content-center">
+        <input type="submit" name="submit_type" value="Postavi sliku u galeriju" class="btn w-50 dugme my-2"
+            id="postaviButton">
+        <input type="submit" name="submit_type" value="Poništi" class="btn w-50 dugme my-2" id="ponistiButton">
+    </div>
+
+</form>
+
+<script>
+    document.getElementById('postaviButton').addEventListener('click', function () {
+        document.getElementsByName('image')[0].setAttribute('required', 'true');
+    });
+
+    document.getElementById('ponistiButton').addEventListener('click', function () {
+        document.getElementsByName('image')[0].removeAttribute('required');
+    });
+</script>
+{% endblock %}

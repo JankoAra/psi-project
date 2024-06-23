@@ -1,0 +1,325 @@
+<!-- Janko Arandjelovic 2021/0328 -->
+
+{% extends 'base.html' %}
+
+{% block extras %}
+<!-- JS promenljive ubacene iz Djanga, moraju biti inicijalizovane pre ukljucenja skripte -->
+<script>
+    let userAuthenticated = "{{ user.is_authenticated }}";
+    const username = "{{ user.username }}";
+    let articleID = "{{ clanak.id_clanka }}";
+    const userType = "{{ user.tip }}";
+    const csrfToken = "{{ csrf_token }}";
+    const articleAuthorUsername = "{{ clanak.id_autora.username }}";
+    let startAvgGrade = "{{avg_grade}}";
+    let userGrade = "{{ user_grade }}";
+    let show_want_to_register = "{{ show_want_to_register }}";
+    let user_tip = "{{ user.tip }}";
+</script>
+{% load static %}
+<link rel="stylesheet" href="{% static '/style/pregled_clanka.css' %}" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="{% static '/js/pregled_clanka.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Tabovi clanka -->
+<div class="container-fluid mt-4">
+    <!-- Navigacija pomocu tabova -->
+    <ul class="nav nav-tabs" id="myTabs">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#content1">Informacije</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#content2">Galerija</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab3" data-bs-toggle="tab" href="#content3">Diskusije</a>
+        </li>
+    </ul>
+
+    <!-- Sadrzaj tabova -->
+    <div class="tab-content mt-2">
+        <!-- Tab 1 - Informacije i tekst -->
+        <div class="tab-pane fade kartica show active clanak position-relative" id="content1">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12 col-md-6 col-lg-8 order-md-1 order-2">
+                        <article>
+                            <h2>{{ pticaTabela.vrsta }}</h2>
+                            <p class="keep-whitespace">{{ clanak.sadrzaj }}</p>
+                        </article>
+
+                        {% if clanak.id_autora == user or user.is_admin %}
+                        <div id="change-article-text" style="display: none;" class="my-1">
+                            <textarea name="sadrzaj" id="new-text" class="w-100" rows="40"></textarea><br>
+                            <button class="btn btn-secondary" id="cancel-change-article-text-btn">Odustani</button>
+                            <button class="btn btn-success" id="submit-change-article-text-btn">Potvrdi izmenu</button>
+                        </div>
+                        <button class="btn btn-warning my-1" id="show-change-article-text-form-btn">Izmeni tekst
+                            članka</button>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 order-md-2 order-1">
+                        <div class="text-end">
+                            {% if user.tip == 'R' and show_want_to_register == 1 %}
+                            <button class="heart-button btn btn-sm btn-success my-1" id="track_changes_button">&#10084;
+                                Prati
+                                izmene</button>
+                            <button class="heart-button btn btn-sm btn-success my-1" id="dont_track_changes_button"
+                                style="display: none;"><span style="color: rgb(11, 255, 137);">&#10084;</span> Prekini
+                                praćenje</button>
+                            {% elif user.tip == 'R' and show_want_to_register == 2 %}
+                            <button class="heart-button btn btn-sm btn-success my-1" id="track_changes_button"
+                                style="display: none;">&#10084; Prati
+                                izmene</button>
+                            <button class="heart-button btn btn-sm btn-success my-1"
+                                id="dont_track_changes_button"><span style="color: rgb(11, 255, 137);">&#10084;</span>
+                                Prekini praćenje</button>
+                            {% endif %}
+                            {% if user.is_authenticated and user.tip != 'A' %}
+                            <button class="report-button btn btn-sm btn-success" id="report_error_on_article">
+                                <i class="fas fa-flag"></i> Prijavi nepravilnost članka
+                            </button>
+                            {% endif %}
+                        </div>
+
+                        <table class="mt-1">
+                            <tr>
+                                <th colspan="2" id="ime_vrste_tabela">{{ pticaTabela.vrsta }}</th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    {% if pticaTabela.slika_vrste %}
+                                    <img src="data:image/png;base64,{{ pticaTabela.slika_vrste }}" alt="Slika Vrste"
+                                        style="max-width: 100%;">
+                                    {% else %}
+                                    <img src="{% static 'images/logo.png' %}" alt="Nmea slike" style="max-width: 100%;">
+                                    <p>Nema slike</p>
+                                    {% endif %}
+                                    {% if clanak.id_autora == user or user.is_admin %}
+                                    <form action="{% url 'change_table_image' %}" method="POST"
+                                        enctype="multipart/form-data" id="change-table-image-form"
+                                        style="display: none;" class="my-1">
+                                        {% csrf_token %}
+                                        <input type="file" name="image" id="tabela_slika_file" class="w-100"
+                                            style="display: none;" required accept=".jpg,.jpeg,.png">
+                                        <input type="hidden" name="article_id" value="{{ clanak.id_clanka }}">
+                                        <button class="btn btn-success my-1" id="submit-change-table-image-btn">Potvrdi
+                                            izmenu</button>
+                                    </form>
+
+                                    <button class="btn btn-secondary" id="cancel-change-table-image-btn"
+                                        style="display: none;">Odustani</button>
+
+                                    <button class="btn btn-warning my-1" id="show-change-table-image-btn">Promeni
+                                        sliku</button>
+
+                                    {% if pticaTabela.slika_vrste %}
+                                    <button class="btn btn-warning my-1" id="show-delete-table-image-btn">Obriši
+                                        sliku</button>
+                                    {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Informacije</th>
+                            </tr>
+                            <tr>
+                                <td>Vrsta</td>
+                                <td>
+                                    <span id="tabela_vrsta" class="tabela_info">{{ pticaTabela.vrsta }}</span>
+                                    <input type="text" id="tabela_vrsta_form_change" class="w-100 tabela_form_change"
+                                        style="display: none;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Rod</td>
+                                <td>
+                                    <span id="tabela_rod" class="tabela_info">{{ pticaTabela.rod }}</span>
+                                    <input type="text" id="tabela_rod_form_change" class="w-100 tabela_form_change"
+                                        style="display: none;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Porodica</td>
+                                <td>
+                                    <span id="tabela_porodica" class="tabela_info">{{ pticaTabela.porodica }}</span>
+                                    <input type="text" id="tabela_porodica_form_change" class="w-100 tabela_form_change"
+                                        style="display: none;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Red</td>
+                                <td>
+                                    <span id="tabela_red" class="tabela_info">{{ pticaTabela.red }}</span>
+                                    <input type="text" id="tabela_red_form_change" class="w-100 tabela_form_change"
+                                        style="display: none;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Klasa</td>
+                                <td>
+                                    <span id="tabela_klasa" class="tabela_info">{{ pticaTabela.klasa }}</span>
+                                    <input type="text" id="tabela_klasa_form_change" class="w-100 tabela_form_change"
+                                        style="display: none;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tip</td>
+                                <td>
+                                    <span id="tabela_tip" class="tabela_info">{{ pticaTabela.tip }}</span>
+                                    <input type="text" id="tabela_tip_form_change" class="w-100 tabela_form_change"
+                                        style="display: none;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Carstvo</td>
+                                <td>
+                                    <span id="tabela_carstvo" class="tabela_info">{{ pticaTabela.carstvo }}</span>
+                                    <input type="text" id="tabela_carstvo_form_change" class="w-100 tabela_form_change"
+                                        style="display: none;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Težina (u g)</td>
+                                <td>
+                                    <span id="tabela_tezina" class="tabela_info">{{ pticaTabela.tezina }}</span>
+                                    <input type="number" id="tabela_tezina_form_change" class="w-100 tabela_form_change"
+                                        style="display: none;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Veličina (u cm)</td>
+                                <td>
+                                    <span id="tabela_velicina" class="tabela_info">{{ pticaTabela.velicina }}</span>
+                                    <input type="number" id="tabela_velicina_form_change"
+                                        class="w-100 tabela_form_change" style="display: none;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Status ugroženosti</td>
+                                <td>
+                                    <span id="tabela_status" class="tabela_info">{{ pticaTabela.status_ugrozenosti}}
+                                    </span>
+                                    <input type="text" id="tabela_status_form_change" class="w-100 tabela_form_change"
+                                        style="display: none;">
+                                </td>
+                            </tr>
+                        </table>
+                        {% if clanak.id_autora == user or user.is_admin %}
+                        <div class="text-center my-1">
+                            <button class="btn btn-warning" id="show-change-article-table-form-btn">Izmeni tabelu
+                                informacija</button>
+                            <button class="btn btn-secondary" id="cancel-change-article-table-form-btn"
+                                style="display: none;">Odustani</button>
+                            <button class="btn btn-success" id="submit-change-article-table-form-btn"
+                                style="display: none;">Potvrdi</button>
+                        </div>
+
+
+                        {% endif %}
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+        <div class="tab-pane fade galerija kartica" id="content2">
+            <h2 class="mb-2"><b>Galerija</b></h2>
+            {% if user.is_authenticated %}
+            <a id="add-to-gallery-button" class="bg-success btn" style="font-size: 20px;"
+                href="{% url 'add_image_to_gallery' %}?article_id={{ clanak.id_clanka }}">
+                &plus;&nbsp;Dodaj sliku</a>
+            {% endif %}
+            <div
+                class="image-container row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 d-flex align-items-center">
+            </div>
+
+
+        </div>
+        <div class="tab-pane fade diskusije-tab kartica" id="content3">
+            <h2 class="mb-2"><b>Diskusije</b> </h2>
+            {% if user.is_authenticated %}
+            <button class="btn btn-success mb-2" id="open-new-discussion-btn" style="font-size: 20px;">
+                &plus;&nbsp;Započni diskusiju</button>
+            {% endif %}
+            <div id="nova_diskusija" style="display: none;">
+                <form id="forma_diskusije">
+                    <input type="text" id="naslov_diskusije" placeholder="Naslov diskusije" maxlength="60"
+                        class="w-100 my-1" required><span id="naslov_diskusije_greska" style="color:red;"></span><br>
+                    <textarea id="tekst_diskusije" rows="5" class="w-100 my-1" placeholder="Sadržaj diskusije"
+                        required></textarea><span id="tekst_diskusije_greska" style="color:red;"></span><br>
+                    <button type="button" id="submit-new-discussion-btn" class="btn btn-success">Potvrdi</button>
+                    <button type="button" id="cancel-new-discussion-btn" class="btn btn-secondary">Odustani</button>
+                </form>
+            </div>
+            <div id="discussions_container"> </div>
+        </div>
+    </div>
+</div>
+
+<div class="ocenjivanje">
+    <h2>Ocenite naš članak:</h2>
+    <hr>
+    <div id="rating-div">
+        {% if not user.is_authenticated %}
+        <p><a href="{% url 'user_login' %}">Prijavite se</a> da biste ocenili članak.</p>
+        <br>
+        {% endif %}
+    </div>
+    <p id="prosecna-ocena">Trenutna prosečna ocena: <span id="prosecna-ocena-value">ocena</span></p>
+</div>
+
+<!-- Modal za potvrdu brisanja -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="confirmDeleteModalBody"></div>
+            <div class="modal-footer">
+                <button id="dontDeletePicture" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Otkaži</button>
+                <button id="confirmDeleteButton" type="button" class="btn btn-danger"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal za prikaz slike fullscreen -->
+<div class="modal fade modal-fullscreen" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-end w-100">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center align-items-center">
+                <img id="modal-image" src="" alt="Full-size image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal informacije o slici -->
+<div class="modal fade" id="imageInfoModal" tabindex="-1" aria-labelledby="imageInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageInfoModalLabel">Dodatne informacije</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Informacije se upisuju iz JS -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
